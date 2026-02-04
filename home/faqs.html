@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    /* --- 1. VARIABLES & RESET --- */
+    :root {
+        --bg-cream: #fffff0;
+        --accent-blue: #6c99e8;
+        --deep-navy: #0a0c6b;
+        --text-grey: #666;
+        --font-main: "Times New Roman", Times, serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- 2. GLOBAL BODY STYLES --- */
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-navy);
+        overflow-x: hidden;
+        /* Main Background Gradient */
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.4) 0%, transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.4) 0%, transparent 45%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    /* --- 3. NAVIGATION BAR --- */
+    nav {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 240, 0.9) 0%, 
+            rgba(108, 153, 232, 0.1) 50%, 
+            rgba(255, 255, 240, 0.9) 100%
+        );
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        height: 80px;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(10, 12, 107, 0.05);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        z-index: 1002;
+    }
+
+    /* Menu Container */
+    .menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover { color: var(--accent-blue); }
+
+    /* Appointment Button */
+    .btn-appointment {
+        padding: 10px 25px;
+        background-color: var(--deep-navy);
+        color: #ffffff;
+        border: 1px solid var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(10, 12, 107, 0.2);
+    }
+
+    .btn-appointment:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+    }
+
+    /* Hamburger Icon */
+    .hamburger {
+        display: none;
+        font-size: 24px;
+        color: var(--deep-navy);
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    /* --- 4. FAQ SECTION --- */
+    .faq-container {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 0 20px;
+        padding-bottom: 100px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .faq-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .faq-header h1 {
+        font-size: 36px;
+        color: var(--deep-navy);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .faq-header p {
+        color: var(--text-grey);
+        font-style: italic;
+    }
+
+    /* Accordion Style */
+    .faq-item {
+        background: rgba(255, 255, 240, 0.7);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        margin-bottom: 20px;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(10, 12, 107, 0.05);
+    }
+
+    .faq-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(10, 12, 107, 0.1);
+        border-color: rgba(108, 153, 232, 0.3);
+    }
+
+    /* The Question (Button) */
+    .faq-question {
+        width: 100%;
+        text-align: left;
+        padding: 20px 25px;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--deep-navy);
+        font-family: var(--font-main);
+    }
+
+    .faq-question i {
+        font-size: 14px;
+        transition: transform 0.4s ease;
+        color: var(--accent-blue);
+    }
+
+    /* The Answer (Content) */
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        padding: 0 25px;
+        opacity: 0;
+    }
+
+    .faq-answer p {
+        padding-bottom: 25px;
+        color: var(--text-grey);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* Active State (When Opened) */
+    .faq-item.active {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: var(--accent-blue);
+    }
+
+    .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+    }
+
+    .faq-item.active .faq-answer {
+        opacity: 1;
+    }
+
+    /* --- 5. ANIMATIONS --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 6. MOBILE RESPONSIVENESS --- */
+    @media (max-width: 900px) {
+        .hamburger {
+            display: block;
+        }
+
+        .menu {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 240, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            padding: 30px 0;
+            gap: 20px;
+            box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .faq-header h1 { font-size: 28px; }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        
+        <div class="hamburger" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="menu" id="navMenu">
+            <a href="home_dashboard.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="faqs.html" style="color: var(--accent-blue);">FAQs</a>
+            
+            <button class="btn-appointment" onclick="window.location.href='../login.html'">Appointment</button>
+        </div>
+    </nav>
+
+    <div class="faq-container">
+        <div class="faq-header">
+            <h1>Frequently Asked Questions</h1>
+            <p>Everything you need to know before booking.</p>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What services do you offer?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>I offer soft gel extensions, gel manicure, and removals.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Is Bléum Nails home-based or salon-based?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Bléum Nails is a home-based nail studio.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Where are you located?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>We are located at Leticia Homes Subdivision.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How can I book an appointment?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>You may book via DM or through the booking form.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Do you accept walk-ins?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>No. Appointments only to ensure proper time and preparation for each client.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Is there a down payment required?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Yes. A ₱150 down payment is required to secure your slot.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What is your cancellation or no-show policy?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>
+                    • Down payments are non-refundable.<br>
+                    • If you need to reschedule, please inform at least 24 hours in advance so your down payment may be transferred to your new booking.<br>
+                    • No-shows or late cancellations will result in forfeiture of the down payment.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How long does each service take?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Services usually take 2–4 hours, depending on the design and service chosen.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How long do gel manicure results last?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Gel manicure typically lasts 2–3 weeks with proper aftercare.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How long should soft gel extensions be worn?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Soft gel extensions are best worn for 3–4 weeks, which is the recommended time for maintenance or removal.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Do you offer nail removals?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, I offer proper and safe nail removal.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Is gel safe for short or weak nails?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, when applied and removed properly, gel services are safe for short or weak nails.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Can I send nail design inspiration?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, sending inspo is required to help with preparation and time management.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Do you accept first-time clients?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, first-time clients are welcome.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What payment methods do you accept?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>I accept GCash and cash payments.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Do you offer custom designs?
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>No. I do not offer custom designs. Services are based on existing styles and inspirations provided.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Accordion Logic ---
+        const questions = document.querySelectorAll('.faq-question');
+
+        questions.forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+
+                // Close other items (optional: remove this loop if you want multiple open)
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                    }
+                });
+
+                // Toggle Current
+                item.classList.toggle('active');
+                
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                } else {
+                    answer.style.maxHeight = null;
+                }
+            });
+        });
+
+        // --- Mobile Menu Logic ---
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = hamburgerBtn.querySelector('i');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>

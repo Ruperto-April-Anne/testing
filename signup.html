@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Bléum Nails</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <a href="home/home_dashboard.html" class="btn-home">
+        <i class="fa-solid fa-house"></i> Home
+    </a>
+
+    <div class="container">
+        
+        <div class="left-panel">
+            <div class="logo">Bléum Nails</div>
+        </div>
+
+        <div class="right-panel">
+            <div class="form-content">
+                <h2>Create Account</h2>
+                <small>Join our exclusive customer list.</small>
+
+                <form id="signupForm">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder=" " required>
+                        <label for="email">Email</label>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="password-wrapper">
+                            <input type="password" id="password" placeholder=" " required>
+                            <label for="password">Password</label>
+                            <i class="fa-regular fa-eye" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" placeholder=" " required>
+                            <label for="confirmPassword">Confirm Password</label>
+                            <i class="fa-regular fa-eye" id="toggleConfirmPassword"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Sign Up</button>
+                </form>
+
+                <div class="footer">
+                    Already have an account? <a href="login.html">Login</a>
+                </div>
+
+                <div class="social-login">
+                    <p>or continue with</p>
+                    <div class="social-buttons">
+                        <button class="social-btn google"><i class="fab fa-google"></i></button>
+                        <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button class="social-btn apple"><i class="fab fa-apple"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="customAlertModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 id="alertTitle">Notification</h3>
+        <p id="alertMessage">Message goes here</p>
+        <button id="alertOkBtn" class="btn-modal btn-confirm">OK</button>
+    </div>
+    </div>
+
+    <div id="customPromptModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id="promptTitle">Enter Info</h3>
+            <input type="email" id="promptInput" placeholder="Enter your email">
+            <div class="modal-actions">
+                <button id="promptCancelBtn" class="btn-modal btn-cancel">Cancel</button>
+                <button id="promptConfirmBtn" class="btn-modal btn-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/signup.js"></script>
+</body>
+</html>

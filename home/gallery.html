@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    /* --- 1. VARIABLES & RESET --- */
+    :root {
+        --bg-cream: #fffff0;
+        --accent-blue: #6c99e8;
+        --deep-navy: #0a0c6b;
+        --text-grey: #666;
+        --font-main: "Times New Roman", Times, serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- 2. GLOBAL BODY STYLES --- */
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-navy);
+        overflow-x: hidden;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.4) 0%, transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.4) 0%, transparent 45%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    /* --- 3. NAVIGATION BAR --- */
+    nav {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 240, 0.9) 0%, 
+            rgba(108, 153, 232, 0.1) 50%, 
+            rgba(255, 255, 240, 0.9) 100%
+        );
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        height: 80px;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(10, 12, 107, 0.05);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        z-index: 1002;
+    }
+
+    .menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover { color: var(--accent-blue); }
+
+    .btn-appointment {
+        padding: 10px 25px;
+        background-color: var(--deep-navy);
+        color: #ffffff;
+        border: 1px solid var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(10, 12, 107, 0.2);
+    }
+
+    .btn-appointment:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 24px;
+        color: var(--deep-navy);
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    /* --- 4. GALLERY HEADER --- */
+    .page-header {
+        text-align: center;
+        padding: 60px 20px 40px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .page-header h1 {
+        font-size: 42px;
+        color: var(--deep-navy);
+        margin-bottom: 15px;
+        font-weight: normal;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .page-header p {
+        color: var(--text-grey);
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    /* --- 5. BEFORE & AFTER SECTION (FIXED) --- */
+    .transformation-section {
+        max-width: 1000px;
+        margin: 0 auto 80px;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .transformation-title {
+        font-size: 24px;
+        color: var(--deep-navy);
+        margin-bottom: 30px;
+        display: inline-block;
+        border-bottom: 2px solid var(--accent-blue);
+        padding-bottom: 10px;
+    }
+
+    .ba-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        height: 500px; 
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(10, 12, 107, 0.15);
+        border: 4px solid white;
+        background: #f0f0f0; 
+    }
+
+    /* The "Before" Image (Background) */
+    .ba-img-back {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        background-color: #ddd; /* Fallback color */
+    }
+
+    /* The wrapper that gets resized */
+    .ba-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 50%; 
+        height: 100%;
+        overflow: hidden; 
+        z-index: 2;
+        border-right: 3px solid white; 
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+        background-color: #fff; /* Fallback color */
+    }
+
+    /* The "After" Image (Inside the wrapper) */
+    .ba-img-front {
+        position: absolute;
+        top: 0; left: 0;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* The invisible slider input */
+    .ba-slider {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 10;
+        opacity: 0;
+        cursor: ew-resize; 
+        margin: 0;
+    }
+
+    /* Visual Circle Handle */
+    .slider-handle {
+        position: absolute;
+        top: 50%;
+        left: 50%; 
+        transform: translate(-50%, -50%);
+        width: 40px; height: 40px;
+        background: white;
+        border-radius: 50%;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--deep-navy);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        pointer-events: none; 
+    }
+
+    /* Labels */
+    .label {
+        position: absolute;
+        top: 20px;
+        background: rgba(0,0,0,0.6);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+        z-index: 4;
+        backdrop-filter: blur(4px);
+    }
+    .label-before { right: 20px; }
+    .label-after { left: 20px; }
+
+
+    /* --- 6. GALLERY GRID --- */
+    .gallery-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 5% 100px;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .gallery-card {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(10, 12, 107, 0.05);
+        transition: 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        position: relative;
+    }
+
+    .gallery-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(10, 12, 107, 0.15);
+    }
+
+    .gallery-img-wrapper {
+        height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .gallery-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .gallery-card:hover .gallery-img-wrapper img {
+        transform: scale(1.05);
+    }
+
+    .gallery-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .gallery-info h3 {
+        font-size: 18px;
+        color: var(--deep-navy);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    .gallery-info p {
+        font-size: 13px;
+        color: var(--text-grey);
+    }
+
+    /* Overlay on Hover */
+    .view-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10, 12, 107, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .gallery-card:hover .view-overlay {
+        opacity: 1;
+    }
+
+    .btn-view {
+        background: white;
+        color: var(--deep-navy);
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* --- 7. MODAL STYLING --- */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(10, 12, 107, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        overflow: hidden;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-img {
+        width: 50%;
+        background: #f0f0f0;
+    }
+
+    .modal-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .modal-details {
+        width: 50%;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-grey);
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .detail-label {
+        font-weight: bold;
+        color: var(--deep-navy);
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+    .detail-value {
+        color: var(--text-grey);
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .modal-title {
+        font-size: 28px;
+        color: var(--deep-navy);
+        margin-bottom: 30px;
+    }
+
+    /* --- 8. RESPONSIVE --- */
+    @media (max-width: 900px) {
+        .modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; }
+        .modal-img, .modal-details { width: 100%; }
+        .modal-img { height: 300px; }
+        
+        .hamburger { display: block; }
+        .menu {
+            position: absolute; top: 80px; left: 0; width: 100%;
+            background: rgba(255, 255, 240, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column; padding: 30px 0; gap: 20px;
+            box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+            opacity: 0; visibility: hidden; transform: translateY(-20px);
+            transition: all 0.3s ease; z-index: 999;
+        }
+        .menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        <div class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></div>
+        <div class="menu" id="navMenu">
+            <a href="home_dashboard.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html" style="color: var(--accent-blue);">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="faqs.html">FAQs</a>
+            <button class="btn-appointment" onclick="window.location.href='../login.html'">Appointment</button>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Gallery</h1>
+        <p>A showcase of artistry, precision, and transformation.</p>
+    </div>
+
+    <div class="transformation-section">
+        <h2 class="transformation-title">The Transformation</h2>
+        <p style="margin-bottom: 20px; color: #666; font-size: 14px;">Drag the slider to see the difference.</p>
+        
+        <div class="ba-container" id="baContainer">
+            <span class="label label-after">After</span>
+            <span class="label label-before">Before</span>
+
+            <img src="https://placehold.co/800x500/e0e0e0/333333?text=Before+Image" class="ba-img-back" alt="Before">
+            
+            <div class="ba-overlay" id="baOverlay">
+                <img src="https://placehold.co/800x500/6c99e8/ffffff?text=After+Image" class="ba-img-front" id="baFrontImg" alt="After">
+            </div>
+
+            <div class="slider-handle" id="sliderHandle"><i class="fa-solid fa-arrows-left-right"></i></div>
+            
+            <input type="range" min="0" max="100" value="50" class="ba-slider" id="baSlider" oninput="updateSlider(this.value)">
+        </div>
+    </div>
+
+    <div class="gallery-container">
+        <h2 class="transformation-title" style="margin-bottom: 40px; display: block; text-align: center; border: none;">Featured Works</h2>
+
+        <div class="gallery-grid" id="galleryGrid">
+            </div>
+    </div>
+
+    <div class="modal-overlay" id="galleryModal">
+        <div class="modal-content">
+            <div class="modal-img">
+                <img src="" id="modalImage" alt="Nail Design">
+            </div>
+            <div class="modal-details">
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <h2 class="modal-title" id="modalTitle">Design Name</h2>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Service</span>
+                    <span class="detail-value" id="modalService">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Started</span>
+                    <span class="detail-value" id="modalStarted">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Lasted (Duration)</span>
+                    <span class="detail-value" id="modalDuration">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Longevity</span>
+                    <span class="detail-value" id="modalLongevity">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Artist</span>
+                    <span class="detail-value" id="modalArtist">Micah</span>
+                </div>
+
+                <p style="margin-top: 20px; font-size: 13px; color: #888; text-align: center;">
+                    <em>*Images are updated by Admin. Actual longevity depends on aftercare.</em>
+                </p>
+                <button class="btn-appointment" style="margin-top: 30px; width: 100%; text-align: center;" onclick="window.location.href='../login.html'">Book This Look</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Before/After Slider Logic ---
+        function updateSlider(val) {
+            const overlay = document.getElementById('baOverlay');
+            const handle = document.getElementById('sliderHandle');
+            
+            // Move the split line
+            overlay.style.width = val + "%";
+            // Move the handle
+            handle.style.left = val + "%";
+        }
+
+        // CRITICAL: Ensure top image stays same width as container to prevent squishing
+        function resizeFrontImage() {
+            const container = document.getElementById('baContainer');
+            const frontImg = document.getElementById('baFrontImg');
+            // Force front image to be width of container
+            if (container && frontImg) {
+                frontImg.style.width = container.offsetWidth + 'px';
+            }
+        }
+
+        // Run resize on load and window resize
+        window.addEventListener('load', resizeFrontImage);
+        window.addEventListener('resize', resizeFrontImage);
+
+        // --- 2. Dynamic Gallery Data ---
+        const galleryData = [
+            {
+                id: 1,
+                title: "Ocean Blue Ombre",
+                image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1974&auto=format&fit=crop",
+                service: "Soft Gel Extensions",
+                started: "1:00 PM",
+                duration: "2 Hours",
+                longevity: "4 Weeks"
+            },
+            {
+                id: 2,
+                title: "Classic French Tip",
+                image: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=2069&auto=format&fit=crop",
+                service: "Gel Manicure",
+                started: "3:30 PM",
+                duration: "1.5 Hours",
+                longevity: "3 Weeks"
+            },
+            {
+                id: 3,
+                title: "Ruby Red Stiletto",
+                image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=2070&auto=format&fit=crop",
+                service: "Soft Gel w/ Removal",
+                started: "10:00 AM",
+                duration: "3 Hours",
+                longevity: "4+ Weeks"
+            },
+            {
+                id: 4,
+                title: "Minimalist Abstract",
+                image: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop",
+                service: "Structure Gel",
+                started: "12:00 PM",
+                duration: "2 Hours",
+                longevity: "3 Weeks"
+            }
+        ];
+
+        // --- 3. Render Grid ---
+        const galleryGrid = document.getElementById('galleryGrid');
+        
+        galleryData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.onclick = () => openModal(item);
+            
+            card.innerHTML = `
+                <div class="gallery-img-wrapper">
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="view-overlay">
+                        <span class="btn-view">View Details</span>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>${item.title}</h3>
+                    <p>${item.service}</p>
+                </div>
+            `;
+            galleryGrid.appendChild(card);
+        });
+
+        // --- 4. Modal Logic ---
+        const modal = document.getElementById('galleryModal');
+
+        function openModal(item) {
+            document.getElementById('modalImage').src = item.image;
+            document.getElementById('modalTitle').innerText = item.title;
+            document.getElementById('modalService').innerText = item.service;
+            document.getElementById('modalStarted').innerText = item.started;
+            document.getElementById('modalDuration').innerText = item.duration;
+            document.getElementById('modalLongevity').innerText = item.longevity;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // --- 5. Mobile Menu ---
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = hamburgerBtn.querySelector('i');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>

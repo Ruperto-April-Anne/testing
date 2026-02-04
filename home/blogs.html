@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    /* --- 1. VARIABLES & RESET --- */
+    :root {
+        --bg-cream: #fffff0;
+        --accent-blue: #6c99e8;
+        --deep-navy: #0a0c6b;
+        --text-grey: #666;
+        --font-main: "Times New Roman", Times, serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- 2. GLOBAL BODY STYLES --- */
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-navy);
+        overflow-x: hidden;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.4) 0%, transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.4) 0%, transparent 45%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    /* --- 3. NAVIGATION BAR --- */
+    nav {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 240, 0.9) 0%, 
+            rgba(108, 153, 232, 0.1) 50%, 
+            rgba(255, 255, 240, 0.9) 100%
+        );
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        height: 80px;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(10, 12, 107, 0.05);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        z-index: 1002;
+    }
+
+    .menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover { color: var(--accent-blue); }
+
+    .btn-appointment {
+        padding: 10px 25px;
+        background-color: var(--deep-navy);
+        color: #ffffff;
+        border: 1px solid var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(10, 12, 107, 0.2);
+    }
+
+    .btn-appointment:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 24px;
+        color: var(--deep-navy);
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    /* --- 4. BLOG LAYOUT --- */
+    .blog-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 5% 100px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .page-header h1 {
+        font-size: 42px;
+        color: var(--deep-navy);
+        margin-bottom: 15px;
+        font-weight: normal;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .page-header p {
+        color: var(--text-grey);
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    /* FEATURED POST (Welcome) */
+    .featured-post {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(10, 12, 107, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        margin-bottom: 80px;
+        align-items: center;
+    }
+
+    .featured-img {
+        height: 100%;
+        min-height: 400px;
+        width: 100%;
+    }
+
+    .featured-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .featured-content {
+        padding: 40px;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 5px 12px;
+        background: var(--bg-cream);
+        color: var(--accent-blue);
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(108, 153, 232, 0.2);
+    }
+
+    .featured-content h2 {
+        font-size: 32px;
+        color: var(--deep-navy);
+        margin-bottom: 20px;
+    }
+
+    .featured-content p {
+        color: var(--text-grey);
+        font-size: 15px;
+        line-height: 1.8;
+        margin-bottom: 30px;
+    }
+
+    .read-more-btn {
+        background: transparent;
+        border: none;
+        color: var(--deep-navy);
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        padding-bottom: 2px;
+        border-bottom: 1px solid var(--deep-navy);
+        transition: 0.3s;
+    }
+
+    .read-more-btn:hover {
+        color: var(--accent-blue);
+        border-color: var(--accent-blue);
+    }
+
+    /* BLOG GRID */
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .blog-card {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(10, 12, 107, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(10, 12, 107, 0.1);
+    }
+
+    .card-img {
+        height: 220px;
+        overflow: hidden;
+    }
+
+    .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.5s;
+    }
+
+    .blog-card:hover .card-img img {
+        transform: scale(1.05);
+    }
+
+    .card-content {
+        padding: 30px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-content h3 {
+        font-size: 20px;
+        color: var(--deep-navy);
+        margin-bottom: 15px;
+    }
+
+    .card-content p {
+        color: var(--text-grey);
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    /* --- 5. MODAL STYLING (For Reading Articles) --- */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(10, 12, 107, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 50px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        position: relative;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: var(--text-grey);
+    }
+
+    .modal-body h2 {
+        color: var(--deep-navy);
+        margin-bottom: 20px;
+    }
+
+    .modal-body p {
+        color: var(--text-grey);
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .modal-body ul, .modal-body ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        color: var(--text-grey);
+        line-height: 1.8;
+    }
+
+    .modal-body li {
+        margin-bottom: 10px;
+    }
+
+    .modal-body strong {
+        color: var(--deep-navy);
+    }
+
+    /* --- 6. ANIMATIONS --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 7. RESPONSIVE --- */
+    @media (max-width: 900px) {
+        .featured-post { grid-template-columns: 1fr; }
+        .featured-img { min-height: 250px; }
+        .modal-content { padding: 30px; }
+        
+        .hamburger { display: block; }
+        .menu {
+            position: absolute; top: 80px; left: 0; width: 100%;
+            background: rgba(255, 255, 240, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column; padding: 30px 0; gap: 20px;
+            box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+            opacity: 0; visibility: hidden; transform: translateY(-20px);
+            transition: all 0.3s ease; z-index: 999;
+        }
+        .menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        <div class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></div>
+        <div class="menu" id="navMenu">
+            <a href="home_dashboard.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="blogs.html" style="color: var(--accent-blue);">Blogs</a>
+            <a href="faqs.html">FAQs</a>
+            <button class="btn-appointment" onclick="window.location.href='../login.html'">Appointment</button>
+        </div>
+    </nav>
+
+    <div class="blog-container">
+        
+        <div class="page-header">
+            <h1>The Bléum Journal</h1>
+            <p>Insights, tips, and tales from the studio.</p>
+        </div>
+
+        <div class="featured-post">
+            <div class="featured-img">
+                <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=2070&auto=format&fit=crop" alt="Welcome to Bleum Nails">
+            </div>
+            <div class="featured-content">
+                <span class="tag">Studio News</span>
+                <h2>Welcome to Bléum Nails by Micah</h2>
+                <p>Bléum Nails began with a simple love for nails and the joy of creating something beautiful with my hands. What started as practice sets and late-night learning slowly turned into a passion—and now, a growing home-based nail studio.</p>
+                <button class="read-more-btn" onclick="openModal(0)">Read Full Story</button>
+            </div>
+        </div>
+
+        <div class="blog-grid">
+            
+            <div class="blog-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1974&auto=format&fit=crop" alt="Nail Care">
+                </div>
+                <div class="card-content">
+                    <div>
+                        <span class="tag">Education</span>
+                        <h3>How to Make Your Gel Nails Last Longer</h3>
+                        <p>Getting your nails done is an investment in self-care. Learn simple but effective tips to protect your nails and extend the life of your set.</p>
+                    </div>
+                    <button class="read-more-btn" onclick="openModal(1)">Read Guide</button>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop" alt="Soft Gel Application">
+                </div>
+                <div class="card-content">
+                    <div>
+                        <span class="tag">Service Spotlight</span>
+                        <h3>Why Soft Gel? The Future of Nail Health</h3>
+                        <p>Curious about Soft Gel Extensions? Discover why this lightweight, flexible system is the healthier alternative to traditional acrylics.</p>
+                    </div>
+                    <button class="read-more-btn" onclick="openModal(2)">Read Article</button>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=2069&auto=format&fit=crop" alt="Nail Prep">
+                </div>
+                <div class="card-content">
+                    <div>
+                        <span class="tag">Behind the Scenes</span>
+                        <h3>The Bléum Standard: Why Prep Matters</h3>
+                        <p>Great retention starts before the polish is even applied. Learn about our meticulous cuticle care and preparation process.</p>
+                    </div>
+                    <button class="read-more-btn" onclick="openModal(3)">Read Article</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="blogModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="modal-body" id="modalBody">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Blog Content Data ---
+        const blogPosts = [
+            // 0: Welcome Post
+            `<h2>Welcome to Bléum Nails by Micah</h2>
+             <p>Bléum Nails began with a simple love for nails and the joy of creating something beautiful with my hands. What started as practice sets and late-night learning slowly turned into a passion—and now, a growing home-based nail studio.</p>
+             <p>At Bléum Nails, I believe nails are more than just an add-on. They’re a form of self-expression, confidence, and self-care. Every set I create is done with intention—from proper nail prep to carefully chosen designs that suit your lifestyle and personality.</p>
+             <br>
+             <h3>Why Bléum Nails?</h3>
+             <p>Bléum comes from the idea of blooming—growing into your own style, embracing simplicity, and feeling beautiful in your own way. Whether you love minimal, clean sets or soft, elegant designs, Bléum Nails is a safe space for you to feel relaxed and taken care of.</p>
+             <br>
+             <h3>What You Can Expect</h3>
+             <ul>
+                <li>Clean and careful nail preparation</li>
+                <li>Quality products suited for nail health</li>
+                <li>Designs that focus on elegance, balance, and wearability</li>
+                <li>A calm, friendly, home-based environment</li>
+             </ul>
+             <p>I value quality over rushing. Every appointment is handled with patience and care because your nails deserve attention—not shortcuts.</p>`,
+
+            // 1: Aftercare Guide
+            `<h2>How to Make Your Gel Nails Last Longer</h2>
+             <p>Getting your nails done is an investment—not just in beauty, but in self-care. To keep your gel nails looking fresh and lasting longer, aftercare is just as important as the application.</p>
+             <p>Here are simple but effective tips to protect your nails and extend the life of your set:</p>
+             <br>
+             <ol>
+                <li><strong>Don’t Use Your Nails as Tools:</strong> Using your nails to open cans, packages, or scrape things can cause immediate lifting or breakage. Treat them like jewels, not tools.</li>
+                <li><strong>Apply Cuticle Oil Daily:</strong> Hydrated nails are flexible nails. Moisturizing your cuticles daily prevents the gel from becoming brittle and lifting.</li>
+                <li><strong>Wear Gloves for Chores:</strong> Water and harsh cleaning chemicals can weaken the adhesive bond of the gel. Always wear gloves when washing dishes or cleaning.</li>
+                <li><strong>Be Gentle in the First 24 Hours:</strong> Avoid extreme heat (like saunas) and long soaking immediately after your appointment to let the set fully settle.</li>
+                <li><strong>Don’t Pick or Peel:</strong> If you experience lifting, do not peel it off! Peeling removes layers of your natural nail plate, causing damage and thinning.</li>
+                <li><strong>Choose Proper Removal:</strong> Never rip off your extensions. Book a professional removal to keep your natural nails healthy and strong for your next set.</li>
+             </ol>`,
+
+            // 2: Why Soft Gel? (Added Professional Content)
+            `<h2>Why Soft Gel? The Future of Nail Health</h2>
+             <p>At Bléum Nails, we specialize in Soft Gel extensions, a modern alternative to traditional acrylics. But what exactly makes them different?</p>
+             <br>
+             <h3>Lightweight & Natural Feeling</h3>
+             <p>Unlike hard gels or acrylics which can feel heavy on the nail plate, soft gel tips are made from a flexible, gel-based material. They move naturally with your hand, making them less prone to snapping from rigid impact.</p>
+             <h3>No Dust, No Odor</h3>
+             <p>Soft gel tips are pre-shaped and adhered using a gel bond. This means no strong monomer smells and significantly less dust during the application process, creating a cleaner and more pleasant environment.</p>
+             <h3>Healthier Soak-Off Removal</h3>
+             <p>One of the biggest advantages is the removal process. Soft gel can be soaked off with acetone, similar to gel polish. This minimizes the need for heavy filing on the natural nail, preserving your nail health over time.</p>`,
+
+            // 3: Prep Matters (Added Professional Content)
+            `<h2>The Bléum Standard: Why Prep Matters</h2>
+             <p>Have you ever had nails pop off after just a few days? The culprit is almost always the preparation. At Bléum Nails, we dedicate a significant portion of your appointment time to "Prep."</p>
+             <br>
+             <h3>Detailed Cuticle Care</h3>
+             <p>We perform a detailed, dry manicure (often called a structured or Russian-style manicure) to gently remove non-living tissue from the nail plate. This allows the gel to adhere directly to the nail, preventing air pockets that cause lifting.</p>
+             <h3>Surface Texture</h3>
+             <p>We gently buff the shine off the natural nail to create a textured surface for the base coat to grip onto, without thinning out your nail plate.</p>
+             <h3>The Result</h3>
+             <p>By prioritizing prep over speed, we ensure your nails not only look cleaner and more refined around the cuticles but also last for 3 to 4 weeks without issues.</p>`
+        ];
+
+        // --- Logic ---
+        const modal = document.getElementById('blogModal');
+        const modalBody = document.getElementById('modalBody');
+
+        function openModal(index) {
+            modalBody.innerHTML = blogPosts[index];
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Mobile Menu
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = hamburgerBtn.querySelector('i');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>

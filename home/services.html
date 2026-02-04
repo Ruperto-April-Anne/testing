@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    /* --- 1. VARIABLES & RESET --- */
+    :root {
+        --bg-cream: #fffff0;
+        --accent-blue: #6c99e8;
+        --deep-navy: #0a0c6b;
+        --text-grey: #666;
+        --font-main: "Times New Roman", Times, serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- 2. GLOBAL BODY STYLES --- */
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-navy);
+        overflow-x: hidden;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.4) 0%, transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.4) 0%, transparent 45%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    /* --- 3. NAVIGATION BAR --- */
+    nav {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 240, 0.9) 0%, 
+            rgba(108, 153, 232, 0.1) 50%, 
+            rgba(255, 255, 240, 0.9) 100%
+        );
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        height: 80px;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(10, 12, 107, 0.05);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        z-index: 1002;
+    }
+
+    .menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover { color: var(--accent-blue); }
+
+    .btn-appointment {
+        padding: 10px 25px;
+        background-color: var(--deep-navy);
+        color: #ffffff;
+        border: 1px solid var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(10, 12, 107, 0.2);
+    }
+
+    .btn-appointment:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 24px;
+        color: var(--deep-navy);
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    /* --- 4. SERVICES HEADER --- */
+    .page-header {
+        text-align: center;
+        padding: 60px 20px 40px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .page-header h1 {
+        font-size: 42px;
+        color: var(--deep-navy);
+        margin-bottom: 10px;
+        font-weight: normal;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .page-header p {
+        color: var(--text-grey);
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    /* --- 5. SERVICES GRID --- */
+    .services-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 5% 100px;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+    }
+
+    /* Service Card Styling */
+    .service-card {
+        background: rgba(255, 255, 240, 0.7);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(10, 12, 107, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 240, 0.9);
+        box-shadow: 0 20px 50px rgba(10, 12, 107, 0.15);
+        border-color: rgba(108, 153, 232, 0.4);
+    }
+
+    .service-icon {
+        font-size: 40px;
+        color: var(--accent-blue);
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(10, 12, 107, 0.05);
+    }
+
+    .service-card h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: var(--deep-navy);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .service-card p {
+        color: var(--text-grey);
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .btn-book-small {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid var(--deep-navy);
+        padding-bottom: 2px;
+        transition: 0.3s;
+    }
+
+    .btn-book-small:hover {
+        color: var(--accent-blue);
+        border-color: var(--accent-blue);
+    }
+
+    /* --- 6. COMING SOON SECTION --- */
+    .coming-soon-section {
+        margin-top: 60px;
+        text-align: center;
+    }
+
+    .coming-soon-title {
+        font-size: 24px;
+        color: var(--deep-navy);
+        margin-bottom: 30px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .coming-soon-title::after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 2px;
+        background: var(--accent-blue);
+        margin: 10px auto 0;
+    }
+
+    /* Dashed Style for Coming Soon */
+    .coming-soon-card {
+        border: 2px dashed rgba(10, 12, 107, 0.2);
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 40px;
+        color: var(--text-grey);
+        transition: 0.3s;
+    }
+
+    .coming-soon-card:hover {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: var(--accent-blue);
+    }
+
+    .coming-soon-icon {
+        font-size: 30px;
+        color: rgba(10, 12, 107, 0.3);
+        margin-bottom: 15px;
+    }
+
+    /* --- 7. ANIMATIONS --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 8. RESPONSIVE --- */
+    @media (max-width: 900px) {
+        .hamburger { display: block; }
+        .menu {
+            position: absolute; top: 80px; left: 0; width: 100%;
+            background: rgba(255, 255, 240, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column; padding: 30px 0; gap: 20px;
+            box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+            opacity: 0; visibility: hidden; transform: translateY(-20px);
+            transition: all 0.3s ease; z-index: 999;
+        }
+        .menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        
+        <div class="hamburger" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="menu" id="navMenu">
+            <a href="home_dashboard.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html" style="color: var(--accent-blue);">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="faqs.html">FAQs</a>
+            
+            <button class="btn-appointment" onclick="window.location.href='../login.html'">Appointment</button>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Our Treatments</h1>
+        <p>Curated services for your nail care needs.</p>
+    </div>
+
+    <div class="services-container">
+        
+        <div class="services-grid">
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-hand-sparkles"></i>
+                </div>
+                <h3>Soft Gel Extensions</h3>
+                <p>A full cover tip made of soft gel that is adhered to your natural nail. Perfect for adding length and strength with a natural look.</p>
+                <a href="../login.html" class="btn-book-small">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-paintbrush"></i>
+                </div>
+                <h3>Gel Manicure</h3>
+                <p>A long-lasting manicure using gel polish that is cured under a UV lamp. Provides a high-gloss finish that lasts 2-3 weeks.</p>
+                <a href="../login.html" class="btn-book-small">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-soap"></i>
+                </div>
+                <h3>Nail Removal</h3>
+                <p>Safe and gentle removal of gel extensions or gel polish to ensure your natural nails stay healthy and undamaged.</p>
+                <a href="../login.html" class="btn-book-small">Book Now</a>
+            </div>
+
+        </div>
+
+        <div class="coming-soon-section">
+            <h2 class="coming-soon-title">More to Come</h2>
+            
+            <div class="services-grid">
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>Nail Art Tiers</h3>
+                    <p>Coming Soon</p>
+                </div>
+
+               <div class="coming-soon-card">
+                    <div class="coming-soon-icon"><i class="fa-solid fa-pump-soap"></i></div>
+                    <h3>Builder In A Bottle</h3>
+                    <p>Coming Soon</p>
+                </div>
+
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon"><i class="fa-regular fa-star"></i></div>
+                    <h3>Loyalty Perks</h3>
+                    <p>Coming Soon</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = hamburgerBtn.querySelector('i');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>

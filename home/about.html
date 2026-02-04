@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    /* --- 1. VARIABLES & RESET --- */
+    :root {
+        --bg-cream: #fffff0;
+        --accent-blue: #6c99e8;
+        --deep-navy: #0a0c6b;
+        --text-grey: #666;
+        --font-main: "Times New Roman", Times, serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- 2. GLOBAL BODY STYLES --- */
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-navy);
+        overflow-x: hidden;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.4) 0%, transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.4) 0%, transparent 45%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    /* --- 3. NAVIGATION BAR --- */
+    nav {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 240, 0.9) 0%, 
+            rgba(108, 153, 232, 0.1) 50%, 
+            rgba(255, 255, 240, 0.9) 100%
+        );
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        height: 80px;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(10, 12, 107, 0.05);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        z-index: 1002;
+    }
+
+    .menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover { color: var(--accent-blue); }
+
+    .btn-appointment {
+        padding: 10px 25px;
+        background-color: var(--deep-navy);
+        color: #ffffff;
+        border: 1px solid var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(10, 12, 107, 0.2);
+    }
+
+    .btn-appointment:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 24px;
+        color: var(--deep-navy);
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    /* --- 4. ABOUT CONTAINER --- */
+    .about-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 5% 100px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .page-header h1 {
+        font-size: 42px;
+        color: var(--deep-navy);
+        margin-bottom: 15px;
+        font-weight: normal;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .page-header p {
+        color: var(--text-grey);
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    /* --- 5. STORY SECTION (Split Layout) --- */
+    .story-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 100px;
+    }
+
+    .story-image {
+        position: relative;
+        height: 500px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(10, 12, 107, 0.15);
+        border: 4px solid white;
+    }
+
+    .story-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .story-content h2 {
+        font-size: 28px;
+        margin-bottom: 25px;
+        color: var(--deep-navy);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-left: 4px solid var(--accent-blue);
+        padding-left: 20px;
+    }
+
+    .story-content p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--text-grey);
+        margin-bottom: 20px;
+    }
+
+    /* --- 6. VALUES SECTION (3 Cards) --- */
+    .values-section {
+        margin-bottom: 100px;
+    }
+
+    .values-title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 50px;
+        color: var(--deep-navy);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .value-card {
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(10, 12, 107, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        transition: transform 0.3s;
+    }
+
+    .value-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(10, 12, 107, 0.1);
+        border-color: rgba(108, 153, 232, 0.3);
+    }
+
+    .value-icon {
+        font-size: 35px;
+        color: var(--accent-blue);
+        margin-bottom: 20px;
+    }
+
+    .value-card h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--deep-navy);
+        text-transform: uppercase;
+    }
+
+    .value-card p {
+        font-size: 13px;
+        color: var(--text-grey);
+        line-height: 1.6;
+    }
+
+    /* --- 7. MEET THE ARTIST --- */
+    .artist-section {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 30px;
+        padding: 60px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .artist-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        overflow: hidden;
+        border: 4px solid var(--accent-blue);
+        box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+    }
+
+    .artist-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .artist-name {
+        font-size: 22px;
+        color: var(--deep-navy);
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .artist-role {
+        font-size: 14px;
+        color: var(--accent-blue);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .artist-bio {
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 16px;
+        font-style: italic;
+        color: var(--text-grey);
+        line-height: 1.8;
+    }
+
+    /* --- 8. ANIMATIONS --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 9. RESPONSIVE --- */
+    @media (max-width: 900px) {
+        .story-grid { grid-template-columns: 1fr; }
+        .values-grid { grid-template-columns: 1fr; }
+        .story-image { height: 350px; }
+        
+        .hamburger { display: block; }
+        
+        .menu {
+            position: absolute; top: 80px; left: 0; width: 100%;
+            background: rgba(255, 255, 240, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column; padding: 30px 0; gap: 20px;
+            box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+            opacity: 0; visibility: hidden; transform: translateY(-20px);
+            transition: all 0.3s ease; z-index: 999;
+        }
+        
+        .menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        <div class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></div>
+        <div class="menu" id="navMenu">
+            <a href="home_dashboard.html">Home</a>
+            <a href="about.html" style="color: var(--accent-blue);">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="faqs.html">FAQs</a>
+            <button class="btn-appointment" onclick="window.location.href='../login.html'">Appointment</button>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        
+        <div class="page-header">
+            <h1>Our Story</h1>
+            <p>Redefining nail care in the heart of Leticia Homes.</p>
+        </div>
+
+        <div class="story-grid">
+            <div class="story-image">
+                <img src="../images/studio.jpg" alt="Nail Studio Aesthetic">
+            </div>
+            <div class="story-content">
+                <h2>A Sanctuary for Self-Care</h2>
+                <p>
+                    Bléum Nails is more than just a nail studio; it is a private sanctuary. As a premier home-based studio, we are dedicated to redefining the nail care experience by combining the intimacy of a private space with the luxury of a high-end salon.
+                </p>
+                <p>
+                    We believe that beauty lies in the details. That is why we specialize in meticulous soft gel extensions and structured manicures designed not just to look beautiful, but to last.
+                </p>
+                <p>
+                    Operating strictly by appointment allows us to ensure that every client receives our undivided attention, premium product application, and a flawless finish that stands the test of time.
+                </p>
+            </div>
+        </div>
+
+        <div class="values-section">
+            <h2 class="values-title">Our Core Values</h2>
+            <div class="values-grid">
+                
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-star"></i></div>
+                    <h3>Quality First</h3>
+                    <p>We use only premium, curated soft gel systems and polishes to ensure the health and integrity of your natural nails.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-hands-bubbles"></i></div>
+                    <h3>Strict Hygiene</h3>
+                    <p>Your safety is paramount. All tools are sterilized, and files are single-use to maintain the highest sanitation standards.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+                    <h3>Private Comfort</h3>
+                    <p>Enjoy your treatment in a quiet, home-based setting free from the noise and rush of commercial salons.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="artist-section">
+            <div class="artist-avatar">
+                <img src="../images/micah.jpg" alt="Micah">
+            </div>
+            <div class="artist-name">Micah</div>
+            <span class="artist-role">Founder & Lead Artist</span>
+            <p class="artist-bio">
+                "I started Bléum Nails with a simple goal: to create a space where art meets precision. I wanted to offer a service that feels personal, unhurried, and genuinely luxurious."
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = hamburgerBtn.querySelector('i');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>

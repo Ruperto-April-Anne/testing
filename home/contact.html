@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    /* --- 1. VARIABLES & RESET --- */
+    :root {
+        --bg-cream: #fffff0;
+        --accent-blue: #6c99e8;
+        --deep-navy: #0a0c6b;
+        --text-grey: #666;
+        --font-main: "Times New Roman", Times, serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- 2. GLOBAL BODY STYLES --- */
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-navy);
+        overflow-x: hidden;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.4) 0%, transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.4) 0%, transparent 45%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    /* --- 3. NAVIGATION BAR --- */
+    nav {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 240, 0.9) 0%, 
+            rgba(108, 153, 232, 0.1) 50%, 
+            rgba(255, 255, 240, 0.9) 100%
+        );
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        height: 80px;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(10, 12, 107, 0.05);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        z-index: 1002;
+    }
+
+    .menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover { color: var(--accent-blue); }
+
+    .btn-appointment {
+        padding: 10px 25px;
+        background-color: var(--deep-navy);
+        color: #ffffff;
+        border: 1px solid var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(10, 12, 107, 0.2);
+    }
+
+    .btn-appointment:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 24px;
+        color: var(--deep-navy);
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    /* --- 4. CONTACT SECTION --- */
+    .contact-container {
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 0 5% 100px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .page-header h1 {
+        font-size: 42px;
+        color: var(--deep-navy);
+        margin-bottom: 15px;
+        font-weight: normal;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .page-header p {
+        color: var(--text-grey);
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 50px;
+    }
+
+    /* Contact Info Cards */
+    .info-column {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .info-card {
+        background: #ffffff; /* White Container */
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 20px;
+        padding: 30px;
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 20px rgba(10, 12, 107, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(10, 12, 107, 0.1);
+        border-color: rgba(108, 153, 232, 0.3);
+    }
+
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        background: #ffffff; /* White Circle */
+        border: 1px solid rgba(10, 12, 107, 0.1); /* Subtle border for visibility */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: var(--accent-blue);
+        box-shadow: 0 5px 15px rgba(10, 12, 107, 0.05);
+    }
+
+    .info-text h3 {
+        font-size: 16px;
+        color: var(--deep-navy);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .info-text p, .info-text a {
+        font-size: 14px;
+        color: var(--text-grey);
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .info-text a:hover {
+        color: var(--accent-blue);
+    }
+
+    /* Social Media Row */
+    .social-row {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .social-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #ffffff; /* White Circle Buttons */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: var(--deep-navy);
+        font-size: 18px;
+        border: 1px solid rgba(10, 12, 107, 0.1); /* Subtle border */
+        transition: 0.3s;
+        box-shadow: 0 2px 10px rgba(10, 12, 107, 0.05);
+    }
+
+    .social-btn:hover {
+        background: var(--deep-navy);
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    /* Contact Form (Visual Only) */
+    .form-card {
+        background: #ffffff; /* White Container */
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 5px 20px rgba(10, 12, 107, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .form-card h3 {
+        color: var(--deep-navy);
+        margin-bottom: 25px;
+        font-size: 22px;
+        font-weight: normal;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--deep-navy);
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .form-group input, 
+    .form-group textarea {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background: #ffffff; /* White Input Background */
+        font-family: var(--font-main);
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s;
+        color: var(--deep-navy);
+    }
+
+    .form-group input:focus, 
+    .form-group textarea:focus {
+        border-color: var(--deep-navy);
+        box-shadow: 0 5px 15px rgba(10, 12, 107, 0.05);
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 15px;
+        background-color: var(--deep-navy);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+        background-color: #1a1d85;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(10, 12, 107, 0.2);
+    }
+
+    /* --- 5. ANIMATIONS --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 6. RESPONSIVE --- */
+    @media (max-width: 900px) {
+        .contact-grid { grid-template-columns: 1fr; }
+        
+        .hamburger { display: block; }
+        
+        .menu {
+            position: absolute; top: 80px; left: 0; width: 100%;
+            background: rgba(255, 255, 240, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column; padding: 30px 0; gap: 20px;
+            box-shadow: 0 10px 20px rgba(10, 12, 107, 0.1);
+            opacity: 0; visibility: hidden; transform: translateY(-20px);
+            transition: all 0.3s ease; z-index: 999;
+        }
+        
+        .menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        
+        <div class="hamburger" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="menu" id="navMenu">
+            <a href="home_dashboard.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html" style="color: var(--accent-blue);">Contact</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="faqs.html">FAQs</a>
+            
+            <button class="btn-appointment" onclick="window.location.href='../login.html'">Appointment</button>
+        </div>
+    </nav>
+
+    <div class="contact-container">
+        
+        <div class="page-header">
+            <h1>Get In Touch</h1>
+            <p>We'd love to hear from you. Book your appointment or send us a query.</p>
+        </div>
+
+        <div class="contact-grid">
+            
+            <div class="info-column">
+                
+                <div class="info-card">
+                    <div class="icon-box"><i class="fa-solid fa-phone"></i></div>
+                    <div class="info-text">
+                        <h3>Phone</h3>
+                        <a href="tel:09947002733">0994 700 2733</a>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="info-text">
+                        <h3>Email</h3>
+                        <a href="mailto:micahhsy@gmail.com">micahhsy@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fa-solid fa-hashtag"></i></div>
+                    <div class="info-text">
+                        <h3>Follow Us</h3>
+                        <div class="social-row">
+                            <a href="https://www.facebook.com/share/17ydsi7emk/?mibextid=wwXIfr" target="_blank" class="social-btn">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/bleumnails?igsh=cm5jbTdmYXA3eWR1&utm_source=qr" target="_blank" class="social-btn">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="info-text">
+                        <h3>Location</h3>
+                        <p>Leticia Homes Subdivision</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-card">
+                <h3>Send a Message</h3>
+                <form>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea rows="5" placeholder="How can we help you?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = hamburgerBtn.querySelector('i');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>
