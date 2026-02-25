@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Account Exists",
                 () => {
                     sessionStorage.setItem("userRole", "client");
-                    window.location.href = "client_dashboard.html";
+                    window.location.href = "../html/client_dashboard.html";
                 }
             );
         } else {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Success",
                 () => {
                     sessionStorage.setItem("userRole", "client");
-                    window.location.href = "client_dashboard.html";
+                    window.location.href = "../html/client_dashboard.html";
                 }
             );
         }
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showCustomAlert(
                     "This email is already registered. Please login.", 
                     "Account Exists", 
-                    () => window.location.href = "login.html"
+                    () => window.location.href = "../entry/login.html"
                 );
                 return;
             }
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showCustomAlert(
                 "Account created successfully!", 
                 "Success", 
-                () => window.location.href = "login.html"
+                () => window.location.href = "../entry/login.html"
             );
         });
     }

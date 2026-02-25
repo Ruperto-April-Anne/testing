@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bléum Nails · GCash Payment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-cream: #fffff0;
+            --accent-blue: #6c99e8;
+            --deep-navy: #0a0c6b;
+            --text-white: #ffffff;
+            --text-grey: #666;
+            --success-green: #2e7d32;
+            --error-red: #d32f2f;
+            --font-main: "Times New Roman", Times, serif;
+            --shadow-soft: 0 10px 30px rgba(10, 12, 107, 0.05);
+        }
+
+        * { box-sizing: border-box; font-family: var(--font-main); margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--deep-navy);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.3) 0%, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-container {
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* LEFT SIDE: SUMMARY */
+        .receipt-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid white;
+        }
+
+        .receipt-header { text-align: center; margin-bottom: 20px; }
+        .receipt-header h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; }
+
+        .client-info-card {
+            background: rgba(10, 12, 107, 0.02);
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(10, 12, 107, 0.1);
+        }
+
+        .client-info-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 14px 16px; 
+        }
+        .client-info-item .label { 
+            font-size: 10px; 
+            text-transform: uppercase; 
+            color: var(--text-grey); 
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .client-info-item .value { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: var(--deep-navy);
+            word-break: break-word;
+        }
+
+        .receipt-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(10, 12, 107, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .receipt-row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 8px 0; 
+            border-bottom: 1px solid #f0f0f0; 
+            font-size: 14px; 
+        }
+        .receipt-total { 
+            background: #f8f9ff; 
+            padding: 15px; 
+            border-radius: 12px; 
+            margin-top: 10px; 
+        }
+        .receipt-total .row { 
+            display: flex; 
+            justify-content: space-between; 
+            font-weight: bold; 
+            font-size: 18px; 
+        }
+
+        /* RIGHT SIDE: PAYMENT */
+        .payment-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .gcash-only-container {
+            background: #f0f4fe;
+            border-radius: 24px;
+            padding: 25px;
+            border: 2px solid var(--accent-blue);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gcash-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+            width: 100%;
+        }
+        .gcash-header i { 
+            font-size: 28px; 
+            color: #0057e0; 
+        }
+        .gcash-header h3 { 
+            letter-spacing: 1px; 
+            font-size: 22px; 
+            color: var(--deep-navy);
+        }
+
+        .qr-code { 
+            background: white; 
+            padding: 12px; 
+            border-radius: 18px; 
+            display: inline-block; 
+            margin: 10px auto 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            min-width: 200px;
+            min-height: 200px;
+        }
+        .qr-code img { 
+            width: 180px; 
+            height: 180px; 
+            display: block; 
+        }
+
+        .total-reminder {
+            background: var(--deep-navy);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px auto 10px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(10,12,107,0.2);
+        }
+
+        .qr-reference {
+            font-family: monospace;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 1px dashed var(--accent-blue);
+            font-weight: bold;
+            font-size: 15px;
+            margin-top: 10px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .payment-status { 
+            text-align: center; 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin: 15px 0; 
+            font-size: 13px; 
+        }
+        .status-waiting { background: #fff3e0; color: #f57c00; }
+        .status-success { background: #e8f5e8; color: var(--success-green); }
+        .status-error { background: #ffebee; color: var(--error-red); }
+        
+        .btn { 
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 50px; 
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            transition: 0.3s; 
+        }
+        .btn-primary { 
+            background: var(--deep-navy); 
+            color: white; 
+            margin-bottom: 10px; 
+        }
+        .btn-primary:hover { background: #1a1d85; }
+        .btn-secondary { 
+            background: transparent; 
+            color: var(--deep-navy); 
+            border: 1px solid var(--deep-navy); 
+        }
+        .btn-secondary:hover { background: rgba(10,12,107,0.05); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 850px) {
+            .payment-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <!-- LEFT: SUMMARY -->
+    <div class="receipt-section">
+        <div class="receipt-header">
+            <h1>Booking Summary</h1>
+            <p>Review your details before paying</p>
+        </div>
+
+        <div class="client-info-card">
+            <div class="client-info-grid">
+                <div class="client-info-item">
+                    <span class="label">Full Name</span>
+                    <span class="value" id="clientFullName">Loading...</span>
+                </div>
+                <div class="client-info-item">
+                    <span class="label">Phone</span>
+                    <span class="value" id="clientPhone">Loading...</span>
+                </div>
+                <div class="client-info-item">
+                    <span class="label">Email</span>
+                    <span class="value" id="clientEmail">Loading...</span>
+                </div>
+                <div class="client-info-item">
+                    <span class="label">Address</span>
+                    <span class="value" id="clientAddress">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="receipt-card">
+            <div class="receipt-row">
+                <span class="label">Service</span>
+                <span class="value" id="receiptService">Loading...</span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Date</span>
+                <span class="value" id="receiptDate">Loading...</span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Time</span>
+                <span class="value" id="receiptTime">Loading...</span>
+            </div>
+            
+            <div class="receipt-total">
+                <div class="row">
+                    <span>Total Amount</span>
+                    <span id="totalAmount">₱150.00</span>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 11px; color: var(--text-grey); text-align: center; font-style: italic;">
+            *Fee is non-refundable but allows for one rescheduling.
+        </p>
+    </div>
+
+    <!-- RIGHT: PAYMENT -->
+    <div class="payment-section">
+        <div class="gcash-only-container">
+            <div class="gcash-header">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <h3>GCash Payment</h3>
+            </div>
+
+            <div class="total-reminder" id="gcashTotal">₱150.00</div>
+
+            <!-- Dynamic QR Code Container -->
+            <div class="qr-code" id="qrContainer">
+                <img id="dynamicQR" src="" alt="Scan with GCash" style="display: none;">
+                <div id="qrLoading" style="padding: 60px 20px; text-align: center;">
+                    <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+                    <p style="margin-top: 10px;">Generating secure QR code...</p>
+                </div>
+            </div>
+
+            <!-- Status Messages -->
+            <div class="qr-reference" id="qrExpiry">
+                <span id="referenceStatus">Initializing payment...</span>
+            </div>
+
+            <!-- Payment Status Display -->
+            <div id="paymentStatus" class="payment-status status-waiting">
+                <i class="fa-regular fa-clock"></i> <span id="statusMessage">Waiting for payment...</span>
+            </div>
+
+            <!-- Demo Controls (remove in production) -->
+            <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                <button class="btn btn-secondary" onclick="simulateSuccessfulPayment()" style="width: auto; padding: 8px 15px; font-size: 12px;">
+                    <i class="fa-solid fa-flask"></i> Demo: Simulate Payment
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Screen (hidden by default) -->
+        <div id="paymentSuccess" style="display: none; text-align: center; margin-top: 15px;">
+            <i class="fa-solid fa-circle-check" style="color: var(--success-green); font-size: 40px; margin-bottom: 10px;"></i>
+            <h3 style="color: var(--success-green);">Payment Verified!</h3>
+            <p style="margin: 10px 0;">Your booking is confirmed.</p>
+            <button class="btn btn-primary" onclick="goToDashboard()" style="margin-top: 15px;">Go to Dashboard</button>
+        </div>
+
+        <!-- Cancel Button (only shown before payment) -->
+        <button class="btn btn-secondary" id="cancelBtn" onclick="goBack()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    // Load QR code library dynamically
+    function loadQRCodeLibrary() {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.1/lib/index.min.js';
+            script.onload = () => resolve(window.QRCode);
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    // Payment state management
+    const paymentState = {
+        referenceNumber: 'BLM' + Math.floor(1000 + Math.random() * 9000),
+        paymentIntentId: 'pi_demo_' + Math.random().toString(36).substring(7),
+        isPaid: false,
+        expiryTimer: null,
+        statusChecker: null
+    };
+
+    // Initialize the page
+    window.onload = async function() {
+        // Load mock data for demo
+        loadMockData();
+        
+        // Generate a secure QR code (demo version)
+        await generateSecureQRCode();
+    };
+
+    // Load mock data for demonstration
+function loadMockData() {
+    // Try to get real data, or use demo data
+    let user = {};
+    let booking = {};
+    
+    try {
+        user = JSON.parse(sessionStorage.getItem('currentUser')) || {};
+        booking = JSON.parse(sessionStorage.getItem('tempBooking')) || {};
+        console.log("Loaded booking from session:", booking); // Debug log
+    } catch (e) {
+        console.log('Using demo data');
+    }
+    
+    // Fill with demo data if empty
+    document.getElementById('clientFullName').textContent = user.fullName || 'Maria Santos';
+    document.getElementById('clientPhone').textContent = user.phone || '0917 123 4567';
+    document.getElementById('clientEmail').textContent = user.email || 'maria.santos@email.com';
+    document.getElementById('clientAddress').textContent = user.address || '123 Main St, Makati City';
+    
+    // FIXED: Better handling of service name
+    let serviceName = 'Classic Manicure'; // Default
+    let servicePrice = 150; // Default
+    
+    // Check if booking exists and has data
+    if (booking && Object.keys(booking).length > 0) {
+        // Get service name - check all possible property names
+        serviceName = booking.serviceName || booking.service || booking.service_type || 'Classic Manicure';
+        
+        // Get price - ensure it's a number
+        servicePrice = parseFloat(booking.price || booking.amount || 150);
+        
+        console.log("Using booking data:", { serviceName, servicePrice });
+    } else {
+        console.log("No booking data found, using defaults");
+    }
+    
+    // Update service name display
+    document.getElementById('receiptService').textContent = serviceName;
+    
+    // Format date nicely if it's a Date object
+    let displayDate = '2024-03-15'; // Default
+    if (booking && booking.date) {
+        if (booking.date instanceof Date) {
+            displayDate = booking.date.toDateString();
+        } else {
+            displayDate = booking.date;
+        }
+    }
+    document.getElementById('receiptDate').textContent = displayDate;
+    
+    // Fix typo: textcontent -> textContent
+    document.getElementById('receiptTime').textContent = (booking && booking.time) || '14:00';
+    
+    // Update all price displays
+    document.getElementById('totalAmount').textContent = `₱${servicePrice.toFixed(2)}`;
+    document.getElementById('gcashTotal').textContent = `₱${servicePrice.toFixed(2)}`;
+    
+    document.getElementById('referenceStatus').innerHTML = 
+        `Reference: ${paymentState.referenceNumber}`;
+}
+
+    // Generate a secure QR code
+    async function generateSecureQRCode() {
+        try {
+            // Show loading
+            document.getElementById('qrLoading').style.display = 'block';
+            document.getElementById('dynamicQR').style.display = 'none';
+            document.getElementById('paymentStatus').className = 'payment-status status-waiting';
+            document.getElementById('statusMessage').innerHTML = 'Waiting for payment...';
+            
+            // Load QR code library
+            await loadQRCodeLibrary();
+            
+            // In production, this would come from your payment gateway
+            // For demo, we'll create a secure token that expires
+            const booking = JSON.parse(sessionStorage.getItem('tempBooking')) || {};
+            const amount = booking.price || 150;
+            const secureToken = `gcash_payment_${paymentState.paymentIntentId}_amount_${amount}.00_expires_${Date.now() + 600000}`;
+            
+            // Generate QR code
+            const QRCode = window.QRCode;
+            const qrImage = await QRCode.toDataURL(secureToken, {
+                width: 200,
+                margin: 2,
+                color: {
+                    dark: '#0a0c6b',  // Your navy color
+                    light: '#FFFFFF'
+                }
+            });
+            
+            // Display QR code
+            document.getElementById('dynamicQR').src = qrImage;
+            document.getElementById('dynamicQR').style.display = 'block';
+            document.getElementById('qrLoading').style.display = 'none';
+            
+            // Update status with expiry
+            updateExpiryTimer();
+            
+            // Start monitoring for payment (in demo, we'll simulate)
+            startPaymentMonitoring();
+            
+        } catch (error) {
+            console.error('Failed to generate QR:', error);
+            document.getElementById('qrLoading').innerHTML = `
+                <i class="fa-solid fa-exclamation-triangle" style="color: #d32f2f;"></i>
+                <p>Failed to generate QR. Please refresh.</p>
+            `;
+        }
+    }
+
+    // Update expiry timer
+    function updateExpiryTimer() {
+        const expiryTime = Date.now() + 600000; // 10 minutes from now
+        
+        paymentState.expiryTimer = setInterval(() => {
+            const now = Date.now();
+            const timeLeft = Math.max(0, Math.floor((expiryTime - now) / 1000));
+            
+            if (timeLeft <= 0) {
+                clearInterval(paymentState.expiryTimer);
+                document.getElementById('qrExpiry').innerHTML = 
+                    '<span style="color: #d32f2f;">⏱️ QR code expired. Please refresh.</span>';
+                document.getElementById('paymentStatus').className = 'payment-status status-error';
+                document.getElementById('statusMessage').innerHTML = 'QR code expired';
+                return;
+            }
+            
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('qrExpiry').innerHTML = 
+                `⏱️ Valid for ${minutes}:${seconds.toString().padStart(2, '0')} • Ref: ${paymentState.referenceNumber}`;
+        }, 1000);
+    }
+
+    // Monitor payment status
+    function startPaymentMonitoring() {
+        // In production, this would poll your backend
+        // For demo, we'll just wait for the simulate button
+        console.log('Monitoring for payment...');
+    }
+
+    // Demo function to simulate successful payment
+    function simulateSuccessfulPayment() {
+        if (paymentState.isPaid) return;
+        
+        paymentState.isPaid = true;
+        
+        // Clear timers
+        if (paymentState.expiryTimer) clearInterval(paymentState.expiryTimer);
+        if (paymentState.statusChecker) clearInterval(paymentState.statusChecker);
+        
+        // Update UI
+        document.getElementById('paymentStatus').className = 'payment-status status-success';
+        document.getElementById('statusMessage').innerHTML = 'Payment received! Verifying...';
+        
+        // Show success after a moment
+        setTimeout(() => {
+            handleSuccessfulPayment();
+        }, 1500);
+    }
+
+// Handle successful payment
+function handleSuccessfulPayment() {
+    // Get booking data
+    let booking = {};
+    let user = {};
+    
+    try {
+        booking = JSON.parse(sessionStorage.getItem('tempBooking')) || {};
+        user = JSON.parse(sessionStorage.getItem('currentUser')) || {};
+    } catch (e) {
+        console.log('Using demo data for booking');
+    }
+    
+    // Make sure the price is a number
+    const servicePrice = parseFloat(booking.price || 150);
+    
+    // Create final booking with ALL required fields - PRESERVE EXACT SERVICE NAME
+    const finalBooking = {
+        id: Date.now(), // Use timestamp for ID instead of reference number
+        paymentIntentId: paymentState.paymentIntentId,
+        status: 'Confirmed',
+        paymentStatus: 'Paid',
+        service: booking.service || 'Classic Manicure',  // Keep the service name EXACTLY as it was
+        date: booking.date || new Date().toDateString(),
+        time: booking.time || '14:00',
+        clientName: user.fullName || 'Maria Santos',
+        clientEmail: user.email || 'maria.santos@email.com',
+        clientPhone: user.phone || '0917 123 4567',
+        clientAddress: user.address || '123 Main St, Makati City',
+        amount: servicePrice,
+        price: servicePrice,
+        paymentMethod: 'GCash',
+        paidAt: new Date().toISOString(),
+        notes: booking.notes || '',
+        referenceImage: booking.referenceImage || null
+    };
+    
+    console.log("FINAL BOOKING TO SAVE:", finalBooking); // Debug log
+    
+    // Save to localStorage
+    try {
+        let all = JSON.parse(localStorage.getItem('allBookings')) || [];
+        all.push(finalBooking);
+        localStorage.setItem('allBookings', JSON.stringify(all));
+        
+        if (user.email) {
+            localStorage.setItem(`appt_${user.email}`, JSON.stringify(finalBooking));
+        }
+        
+        // Store the latest booking data in sessionStorage for the dashboard to read
+        sessionStorage.setItem('tempBooking', JSON.stringify(finalBooking));
+        
+        // Also store a flag to show receipt
+        sessionStorage.setItem('showReceiptForBooking', 'true');
+        
+        console.log("Booking saved to localStorage and tempBooking updated");
+        
+    } catch (e) {
+        console.log('Demo mode - booking saved:', finalBooking);
+        // Still set tempBooking even in demo mode
+        sessionStorage.setItem('tempBooking', JSON.stringify(finalBooking));
+        sessionStorage.setItem('showReceiptForBooking', 'true');
+    }
+    
+    // Show success screen
+    document.getElementById('paymentSuccess').style.display = 'block';
+    document.querySelector('.gcash-only-container').style.display = 'none';
+    document.getElementById('cancelBtn').style.display = 'none';
+}
+
+// Update goToDashboard function
+function goToDashboard() { 
+    console.log("Redirecting to dashboard with payment success");
+    
+    // Get the final booking data from sessionStorage
+    const finalBooking = sessionStorage.getItem('tempBooking');
+    
+    if (finalBooking) {
+        console.log("Final booking before redirect:", JSON.parse(finalBooking));
+    }
+    
+    // Use replace instead of href to ensure clean navigation
+    window.location.replace('client_dashboard.html?payment=success&t=' + Date.now());
+}
+
+    // Expose functions globally for buttons
+    window.simulateSuccessfulPayment = simulateSuccessfulPayment;
+    window.goBack = goBack;
+    window.goToDashboard = goToDashboard;
+</script>
+
+</body>
+</html>

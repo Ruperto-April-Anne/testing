@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Bléum Nails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
+:root {
+    --bg-cream: #fffff0;
+    --accent-blue: #6c99e8;
+    --deep-navy: #0a0c6b;
+    --text-white: #ffffff;
+    --text-grey: #666;
+    --error-red: #d32f2f;
+    --success-green: #2e7d32;
+    --font-main: "Times New Roman", Times, serif;
+    --shadow-soft: 0 10px 30px rgba(10, 12, 107, 0.05);
+    --shadow-hover: 0 15px 40px rgba(10, 12, 107, 0.1);
+    --gold: #FFD700;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--deep-navy);
+    background-image: 
+        radial-gradient(circle at 0% 0%, rgba(108, 153, 232, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(108, 153, 232, 0.3) 0%, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+button, input, select, textarea {
+    outline: none;
+    font-family: inherit;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+           2. NAVIGATION BAR
+           ========================================= */
+nav {
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    height: 55px;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+}
+
+.logo {
+    font-size: 24px;
+    color: var(--deep-navy);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.menu-item {
+    background: none;
+    border: none;
+    color: var(--deep-navy);
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 20px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: rgba(255,255,255,0.6);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 1px solid rgba(10, 12, 107, 0.1);
+    padding-left: 20px;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    background: var(--deep-navy);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.btn-logout {
+    background: transparent;
+    color: var(--text-grey);
+    border: none;
+    font-size: 11px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn-logout:hover {
+    color: var(--error-red);
+}
+
+/* =========================================
+           3. GALLERY LAYOUT
+           ========================================= */
+.view-section {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
+    display: block;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.section-title-wrapper {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-title-wrapper h1 {
+    font-size: 38px;
+    color: var(--deep-navy);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.section-title-wrapper .sub-text {
+    font-size: 16px;
+    color: var(--text-grey);
+    font-style: italic;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    text-align: left;
+}
+
+.gallery-item {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    height: 240px;
+    border: 4px solid white;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.empty-state {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 30px;
+    font-size: 18px;
+    grid-column: 1/-1;
+}
+
+/* =========================================
+           4. ALERT/CONFIRM MODALS (minimal)
+           ========================================= */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 12, 107, 0.4);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#alertPopup, #confirmPopup {
+    z-index: 9999;
+}
+
+.popup-box {
+    background: rgba(255,255,255,0.95);
+    width: 90%;
+    max-width: 450px;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    border: 1px solid white;
+    animation: fadeIn 0.3s ease;
+}
+
+.popup-title {
+    font-size: 20px;
+    color: var(--deep-navy);
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.popup-msg {
+    font-size: 14px;
+    color: var(--text-grey);
+    margin-bottom: 25px;
+}
+
+.btn-popup {
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    border: none;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    min-width: 120px;
+}
+
+.btn-confirm {
+    background: var(--deep-navy);
+    color: white;
+    box-shadow: 0 5px 15px rgba(10, 12, 107, 0.2);
+}
+
+.btn-confirm:hover {
+    background: #1a1d85;
+    transform: translateY(-2px);
+}
+
+.btn-cancel-popup {
+    background: transparent;
+    border: 1px solid #ccc;
+    color: var(--text-grey);
+}
+
+.btn-cancel-popup:hover {
+    border-color: var(--deep-navy);
+    color: var(--deep-navy);
+}
+
+.popup-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Bléum Nails</div>
+        <div class="menu">
+            <button class="menu-item" onclick="window.location.href='client_dashboard.html'">Dashboard</button>
+            <button class="menu-item active" onclick="window.location.href='client_gallery.html'">Gallery</button>
+            <button class="menu-item" onclick="window.location.href='client_feedback.html'">Feedback</button>
+            <button class="menu-item" onclick="window.location.href='client_account.html'">Account</button>
+            
+            <div class="user-profile">
+                <div class="user-avatar" id="navAvatar">U</div>
+                <button class="btn-logout" onclick="app.logoutRequest()">Log Out</button>
+            </div>
+        </div>
+    </nav>
+
+<section id="gallerySection" class="view-section">
+    <div class="section-title-wrapper">
+        <h1>My Inspiration Gallery</h1>
+        <p class="sub-text">A collection of images you uploaded for your appointments.</p>
+    </div>
+    <div class="gallery-grid" id="galleryContainer"></div>
+</section>
+
+<!-- ALERT & CONFIRM MODALS (kept for logout) -->
+<div id="alertPopup" class="popup-overlay">
+    <div class="popup-box">
+        <h3 id="alertTitle" class="popup-title">Notification</h3>
+        <p id="alertMessage" class="popup-msg">Message</p>
+        <div class="popup-actions">
+            <button class="btn-popup btn-confirm" onclick="app.closeAlert()">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirmPopup" class="popup-overlay">
+    <div class="popup-box">
+        <h3 id="confirmTitle" class="popup-title">Confirm</h3>
+        <p id="confirmMessage" class="popup-msg">Sure?</p>
+        <div class="popup-actions">
+            <button class="btn-popup btn-cancel-popup" onclick="app.closeConfirm()">Cancel</button>
+            <button class="btn-popup btn-confirm" id="confirmOkBtn">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const AppState = {
+        currentUser: null
+    };
+
+    const app = {
+        init: function() {
+            this.checkAuth();
+            this.renderGallery();
+        },
+
+        checkAuth: function() {
+            const storedUser = sessionStorage.getItem('currentUser');
+            if (!storedUser || storedUser === 'null' || storedUser === 'undefined') {
+                window.location.href = 'login.html';
+                return;
+            }
+            try {
+                AppState.currentUser = JSON.parse(storedUser);
+                if (!AppState.currentUser || !AppState.currentUser.email) throw new Error('invalid');
+
+                // Set nav avatar
+                const navAvatar = document.getElementById('navAvatar');
+                if (AppState.currentUser.profileImage) {
+                    navAvatar.style.backgroundImage = `url(${AppState.currentUser.profileImage})`;
+                    navAvatar.style.backgroundSize = 'cover';
+                    navAvatar.innerText = '';
+                } else {
+                    const initial = (AppState.currentUser.fullName || "U").charAt(0).toUpperCase();
+                    navAvatar.innerText = initial;
+                    navAvatar.style.backgroundImage = 'none';
+                }
+            } catch (e) {
+                window.location.href = 'login.html';
+            }
+        },
+
+        renderGallery: function() {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = '';
+
+            const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+            const userImages = allBookings
+                .filter(b => b.clientEmail === AppState.currentUser?.email && b.referenceImage)
+                .map(b => b.referenceImage);
+
+            if (userImages.length === 0) {
+                container.innerHTML = '<div class="empty-state">No inspiration photos uploaded yet.</div>';
+                return;
+            }
+
+            userImages.forEach(imgSrc => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.innerHTML = `<img src="${imgSrc}" alt="Nail Inspo">`;
+                container.appendChild(div);
+            });
+        },
+
+        // ----- Alert / Confirm (same as before, minimal) -----
+        showAlert: function(title, msg) {
+            document.getElementById('alertTitle').innerText = title;
+            document.getElementById('alertMessage').innerText = msg;
+            document.getElementById('alertPopup').style.display = 'flex';
+        },
+        closeAlert: function() {
+            document.getElementById('alertPopup').style.display = 'none';
+        },
+
+        showConfirm: function(title, msg, callback) {
+            document.getElementById('confirmTitle').innerText = title;
+            document.getElementById('confirmMessage').innerText = msg;
+            const okBtn = document.getElementById('confirmOkBtn');
+            const newBtn = okBtn.cloneNode(true);
+            okBtn.parentNode.replaceChild(newBtn, okBtn);
+            newBtn.addEventListener('click', () => {
+                this.closeAllModals();
+                if (callback) callback();
+            });
+            document.getElementById('confirmPopup').style.display = 'flex';
+        },
+        closeConfirm: function() {
+            document.getElementById('confirmPopup').style.display = 'none';
+        },
+
+        closeAllModals: function() {
+            document.querySelectorAll('.popup-overlay').forEach(m => m.style.display = 'none');
+        },
+
+        logoutRequest: function() {
+        this.showConfirm("Log Out","Are you sure?",()=>{ sessionStorage.clear(); window.location.href="../entry/login.html"; });
+    }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => app.init());
+</script>
+</body>
+</html>

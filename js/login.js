@@ -104,9 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Redirect
         if (role === 'admin') {
-            window.location.href = "admin_dashboard.html";
+            window.location.href = "../admin_dashboard.html";
         } else {
-            window.location.href = "client/client_dashboard.html";
+            window.location.href = "../html/client_dashboard.html";
         }
     }
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else {
                     showCustomAlert("No account found. Please Sign Up first.", "Account Not Found", () => {
-                        window.location.href = "signup.html";
+                        window.location.href = "../entry/signup.html";
                     });
                 }
             }
