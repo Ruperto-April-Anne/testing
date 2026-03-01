@@ -40,6 +40,27 @@ body {
     min-height: 100vh;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    background: transparent;
+}
+
+body {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+
+html {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
 button, input, select, textarea {
     outline: none;
     font-family: inherit;
@@ -439,6 +460,7 @@ nav {
         <div class="logo">Bléum Nails</div>
         <div class="menu">
             <button class="menu-item" onclick="window.location.href='client_dashboard.html'">Dashboard</button>
+            <button class="menu-item" onclick="window.location.href='client_booking.html'">History</button>
             <button class="menu-item" onclick="window.location.href='client_gallery.html'">Gallery</button>
             <button class="menu-item active" onclick="window.location.href='client_feedback.html'">Feedback</button>
             <button class="menu-item" onclick="window.location.href='client_account.html'">Account</button>
@@ -469,7 +491,8 @@ nav {
             </div>
 
             <div class="input-group">
-                <textarea id="reviewText" class="input-field" rows="3" placeholder="Tell us about your experience..."></textarea>
+                <textarea id="reviewText" class="input-field" rows="3" placeholder="Tell us about your experience..." 
+                style="resize: none; height: 100px; min-height: 100px; max-height: 100px;"></textarea>
             </div>
 
             <div class="file-upload">
