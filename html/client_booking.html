@@ -587,7 +587,9 @@ nav {
     z-index: 9999;
 }
 
-/* Receipt modal styles */
+/* =========================================
+           RECEIPT MODAL STYLES
+           ========================================= */
 .receipt-container {
     border: 2px dashed #ccc;
     padding: 20px;
@@ -720,21 +722,61 @@ nav {
     </div>
 </div>
 
-<!-- Receipt Modal -->
+<!-- RECEIPT MODAL -->
 <div id="receiptModal" class="popup-overlay">
-    <div class="popup-box" style="max-width: 500px;">
-        <h2 class="popup-title">Payment Receipt</h2>
+    <div class="popup-box" style="max-width: 450px;">
+        <h2 class="popup-title">Payment Successful</h2>
+        <i class="fa-solid fa-circle-check" style="font-size: 50px; color: var(--success-green); margin: 20px 0;"></i>
         <div class="receipt-container">
-            <div style="text-align: center; margin-bottom: 15px; font-weight: bold;">BLÉUM NAILS</div>
-            <div class="receipt-row"><span>Receipt No.:</span> <span id="recId">#12345</span></div>
-            <div class="receipt-row"><span>Date:</span> <span id="recDate"></span></div>
-            <div class="receipt-row"><span>Time:</span> <span id="recTime"></span></div>
-            <div class="receipt-row"><span>Client:</span> <span id="recName"></span></div>
-            <div class="receipt-row"><span>Service:</span> <span id="recService"></span></div>
-            <div class="receipt-row receipt-total"><span>Total:</span> <span id="recTotal"></span></div>
+            <div style="text-align: center; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
+                <strong style="font-size: 18px;">BLÉUM NAILS</strong><br>
+                <span style="font-size: 11px;">Official Receipt</span>
+            </div>
+            
+            <!-- Receipt Details - REMOVED ALL DEFAULT TEXT -->
+            <div class="receipt-row">
+                <span>Receipt No.:</span> 
+                <span id="recId"></span>
+            </div>
+            <div class="receipt-row">
+                <span>Date:</span> 
+                <span id="recDate"></span>
+            </div>
+            <div class="receipt-row">
+                <span>Time:</span> 
+                <span id="recTime"></span>
+            </div>
+            
+            <div style="margin: 15px 0; border-top: 1px dashed #ccc;"></div>
+            
+            <div class="receipt-row">
+                <span>Client:</span> 
+                <span id="recName"></span>
+            </div>
+            <div class="receipt-row">
+                <span>Service:</span> 
+                <span id="recService"></span>
+            </div>
+            
+            <div style="margin: 15px 0; border-top: 1px dashed #ccc;"></div>
+            
+            <div class="receipt-row receipt-total">
+                <span style="font-size: 16px;">TOTAL AMOUNT:</span> 
+                <span id="recTotal" style="font-size: 18px; color: var(--deep-navy);"></span>
+            </div>
+            
+            <div style="margin-top: 15px; text-align: center; font-size: 10px; color: var(--text-grey);">
+                <i class="fa-regular fa-circle-check"></i> Paid via GCash<br>
+                This serves as your official receipt
+            </div>
         </div>
-        <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
-            <button class="btn-popup btn-confirm" onclick="app.closeReceipt()">Close</button>
+        <div class="popup-actions" style="gap: 10px;">
+            <button class="btn-popup btn-secondary" onclick="app.downloadReceiptPDF()" style="background: transparent; border: 1px solid var(--deep-navy);">
+                <i class="fa-solid fa-download"></i> Download
+            </button>
+            <button class="btn-popup btn-confirm" onclick="app.closeReceipt()">
+                Close
+            </button>
         </div>
     </div>
 </div>
